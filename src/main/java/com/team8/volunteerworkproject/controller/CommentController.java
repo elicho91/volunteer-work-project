@@ -8,12 +8,9 @@ import com.team8.volunteerworkproject.dto.response.StatusAndDataResponseDto;
 import com.team8.volunteerworkproject.enums.StatusEnum;
 import com.team8.volunteerworkproject.security.UserDetailsImpl;
 import com.team8.volunteerworkproject.service.CommentServiceImpl;
-import java.nio.charset.Charset;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,8 +34,6 @@ public class CommentController {
       @AuthenticationPrincipal UserDetailsImpl userDetails) {
     CommentResponseDto commentResponseDto = commentService.createComment(postId, requestDto,
         userDetails);
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType((new MediaType("application", "json", Charset.forName("UTF-8"))));
     return ResponseEntity.status(HttpStatus.CREATED).body(commentResponseDto);
   }
 
@@ -50,8 +45,6 @@ public class CommentController {
 
     CommentResponseDto commentResponseDto = commentService.updateComment(postId, requestDto,
         userDetails, commentId);
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType((new MediaType("application", "json", Charset.forName("UTF-8"))));
     return ResponseEntity.status(HttpStatus.OK).body(commentResponseDto);
   }
 
@@ -60,9 +53,8 @@ public class CommentController {
   public ResponseEntity deleteComment(@PathVariable Long postId,
       @AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long commentId) {
 
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType((new MediaType("application", "json", Charset.forName("UTF-8"))));
-    return commentService.deleteComment(postId, userDetails, commentId);
+    return ResponseEntity.status(HttpStatus.OK)
+        .body(commentService.deleteComment(postId, userDetails, commentId));
   }
 
   // #18 댓글 신고
@@ -72,8 +64,6 @@ public class CommentController {
     CommentCautionResponseDto responseDto = new CommentCautionResponseDto(postId, commentId,
         requestDto, "댓글이 신고되었습니다.");
     commentService.cautionComment(postId, commentId, requestDto.getCautionReason());
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType((new MediaType("application", "json", Charset.forName("UTF-8"))));
     return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
   }
 
@@ -83,9 +73,7 @@ public class CommentController {
     List<CommentResponseDto> data = commentService.getCommentList(postId);
     StatusAndDataResponseDto responseDto = new StatusAndDataResponseDto(StatusEnum.OK,
         "댓글 조회가 완료되었습니다.", data);
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType((new MediaType("application", "json", Charset.forName("UTF-8"))));
-    return new ResponseEntity<>(responseDto, headers, HttpStatus.OK);
+    return new ResponseEntity<>(responseDto, HttpStatus.OK);
   }
 
 

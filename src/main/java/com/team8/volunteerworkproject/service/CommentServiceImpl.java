@@ -14,8 +14,6 @@ import com.team8.volunteerworkproject.security.UserDetailsImpl;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,7 +63,7 @@ public class CommentServiceImpl implements CommentService {
 
   // 17-3 댓글 삭제
   @Transactional
-  public ResponseEntity deleteComment(Long postId, UserDetailsImpl userDetails, Long commentId) {
+  public String deleteComment(Long postId, UserDetailsImpl userDetails, Long commentId) {
 
     volunteerWorkPostRepository.findById(postId).orElseThrow(
         () -> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
@@ -79,7 +77,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     commentRepository.delete(comment);
-    return new ResponseEntity<>("삭제 완료!", HttpStatus.OK);
+    return "삭제 완료!";
 
   }
 
