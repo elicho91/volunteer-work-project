@@ -20,7 +20,7 @@ public class ProfileServiceImpl implements ProfileService {
   private final UserRepository userRepository;
   private final ProfileRepository profileRepository;
   private final PasswordEncoder passwordEncoder;
-  public static final String CLOUD_FRONT_DOMAIN_NAME = "d261u93iebql1x.cloudfront.net/";
+  public static final String CLOUD_FRONT_DOMAIN_NAME = "https://d261u93iebql1x.cloudfront.net/";
 
 //  @Override
 //  public ProfileResponseDto createProfile(String userId, ProfileRequestDto requestDto) {
@@ -59,7 +59,7 @@ public class ProfileServiceImpl implements ProfileService {
     Profile profile = profileRepository.findByUserId(userId).orElseThrow(
         () -> new IllegalArgumentException("프로필을 작성해 주세요.")
     );
-    return profile.getImage().substring(30);
+    return profile.getImage().substring(38);
   }
 
   @Override

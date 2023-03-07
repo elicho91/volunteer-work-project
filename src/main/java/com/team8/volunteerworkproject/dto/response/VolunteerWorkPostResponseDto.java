@@ -17,7 +17,6 @@ public class VolunteerWorkPostResponseDto {
     private String title;
     private String content;
     private String area;
-    private String status;
     private int likeNum;
     private String centerName; //세부 주소
     private LocalDateTime endTime;
