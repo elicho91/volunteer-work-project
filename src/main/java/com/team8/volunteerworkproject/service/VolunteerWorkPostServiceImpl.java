@@ -18,7 +18,7 @@ public class VolunteerWorkPostServiceImpl implements VolunteerWorkPostService {
 
   private final VolunteerWorkPostRepository volunteerWorkPostRepository;
   private final VolunteerWorkPostLikeServiceImpl volunteerWorkPostLikeService;
-  public static final String CLOUD_FRONT_DOMAIN_NAME = "d261u93iebql1x.cloudfront.net/";
+  public static final String CLOUD_FRONT_DOMAIN_NAME = "https://d261u93iebql1x.cloudfront.net/";
 
   //게시글 작성
   @Override
@@ -55,7 +55,7 @@ public class VolunteerWorkPostServiceImpl implements VolunteerWorkPostService {
     VolunteerWorkPost post = volunteerWorkPostRepository.findByPostIdAndUserId(postId, userId)
         .orElseThrow(
             () -> new IllegalArgumentException("해당 봉사모집글이 존재하지 않거나, 해당기업의 봉사모집글이 아닙니다. "));
-     return post.getImage().substring(30);
+     return post.getImage().substring(38);
   }
 
 
