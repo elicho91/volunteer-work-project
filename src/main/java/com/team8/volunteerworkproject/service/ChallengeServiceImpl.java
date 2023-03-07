@@ -18,7 +18,7 @@ import java.util.List;
 public class ChallengeServiceImpl implements ChallengeService {
 
   private final ChallengeRepository challengeRepository;
-  public static final String CLOUD_FRONT_DOMAIN_NAME = "d261u93iebql1x.cloudfront.net/";
+  public static final String CLOUD_FRONT_DOMAIN_NAME = "https://d261u93iebql1x.cloudfront.net/";
 
   //챌린지 작성
   @Override
@@ -45,7 +45,7 @@ public class ChallengeServiceImpl implements ChallengeService {
   public String getChallengeImage(Long challengeId) {
     Challenge challenge = challengeRepository.findByChallengeId(challengeId).orElseThrow(
         () -> new IllegalArgumentException("수정할 챌린지가 없습니다."));
-    return challenge.getImage().substring(30);
+    return challenge.getImage().substring(38);
   }
 
   //챌린지 삭제

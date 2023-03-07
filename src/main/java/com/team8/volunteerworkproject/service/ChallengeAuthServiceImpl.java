@@ -26,7 +26,7 @@ public class ChallengeAuthServiceImpl implements ChallengeAuthService {
   private final ChallengeAuthRepository challengeAuthRepository;
   private final ChallengeAuthCommentRepository challengeAuthCommentRepository;
   private final ChallengeAuthLikeServiceImpl challengeAuthLikeService;
-  public static final String CLOUD_FRONT_DOMAIN_NAME = "d261u93iebql1x.cloudfront.net/";
+  public static final String CLOUD_FRONT_DOMAIN_NAME = "https://d261u93iebql1x.cloudfront.net/";
 
   //챌린지 자랑 동록
   @Override
@@ -106,6 +106,6 @@ public class ChallengeAuthServiceImpl implements ChallengeAuthService {
         challengeAuthId, userId).orElseThrow(
         () -> new IllegalArgumentException("해당 챌린지 인증이 없거나, 본인의 챌린지 인증이 아닙니다.")
     );
-    return challengeAuth.getImage().substring(30);
+    return challengeAuth.getImage().substring(38);
   }
 }
