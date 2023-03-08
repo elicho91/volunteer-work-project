@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
   private static final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
   private final ProfileRepository profileRepository;
   private static String basicProfileImage = "profile/basic_profile_image.jpeg";
-  public static final String CLOUD_FRONT_DOMAIN_NAME = "d261u93iebql1x.cloudfront.net/";
+  public static final String CLOUD_FRONT_DOMAIN_NAME = "https://d261u93iebql1x.cloudfront.net/";
 
   @Override
   public void signup(SignupRequestDto requestDto) {
