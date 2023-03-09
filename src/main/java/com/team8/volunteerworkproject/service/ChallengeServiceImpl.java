@@ -22,8 +22,8 @@ public class ChallengeServiceImpl implements ChallengeService {
 
   //챌린지 작성
   @Override
-  public ChallengeResponseDto createChallenge(ChallengeRequestDto requestDto, String imgPath) {
-    Challenge challenge = new Challenge(requestDto.getUserId(), requestDto.getTitle(),
+  public ChallengeResponseDto createChallenge(ChallengeRequestDto requestDto, String imgPath, String userId) {
+    Challenge challenge = new Challenge(userId, requestDto.getTitle(),
         requestDto.getContent(), CLOUD_FRONT_DOMAIN_NAME + imgPath);
     Challenge savedChallenge = challengeRepository.save(challenge);
     return new ChallengeResponseDto(savedChallenge);

@@ -11,10 +11,12 @@ public class AllChallengeResponseDto {
     private Long challengeId;
     private String title;
     private String content;
+    private String image;
 
     public AllChallengeResponseDto(Challenge challenge) {
         this.challengeId = challenge.getChallengeId();
         this.title = challenge.getTitle();
         this.content = challenge.getContent();
+        this.image = challenge.getImage();
     }
 }

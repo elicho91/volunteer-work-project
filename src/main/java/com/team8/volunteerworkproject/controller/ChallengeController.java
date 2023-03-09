@@ -6,6 +6,7 @@ import com.team8.volunteerworkproject.dto.response.ChallengeResponseDto;
 import com.team8.volunteerworkproject.dto.response.StatusAndDataResponseDto;
 import com.team8.volunteerworkproject.dto.response.StatusResponseDto;
 import com.team8.volunteerworkproject.enums.StatusEnum;
+import com.team8.volunteerworkproject.security.UserDetailsImpl;
 import com.team8.volunteerworkproject.service.ChallengeServiceImpl;
 import com.team8.volunteerworkproject.service.S3Service;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.Charset;
@@ -35,13 +37,14 @@ public class ChallengeController {
   public ResponseEntity<StatusResponseDto> createChallenge(
       @RequestPart("requestDto") ChallengeRequestDto requestDto,
       @RequestPart(value = "file", required = false)
-      MultipartFile file) throws IOException {
+      MultipartFile file,
+      @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
     if (file == null) {
       imgPath = imgPath;
     } else {
       imgPath = s3Service.updateImage(file, dirName);
     }
-    ChallengeResponseDto data = challengeService.createChallenge(requestDto, imgPath);
+    ChallengeResponseDto data = challengeService.createChallenge(requestDto, imgPath, userDetails.getUserId());
     StatusResponseDto responseDto = new StatusResponseDto(StatusEnum.OK, "챌린지 등록이 완료되었습니다.");
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType((new MediaType("application", "json", Charset.forName("UTF-8"))));

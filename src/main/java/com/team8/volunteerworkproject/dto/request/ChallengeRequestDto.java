@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ChallengeRequestDto {
 
-
-    private String userId;
     private String title;
     private String content;
 

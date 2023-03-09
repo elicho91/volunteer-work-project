@@ -11,12 +11,14 @@ public class AllChallengeAuthResponseDto {
     private Long challengeAuthId;
     private String title;
     private String content;
+    private String image;
     private int likeNum;
 
     public AllChallengeAuthResponseDto(ChallengeAuth challengeAuth) {
         this.challengeAuthId = challengeAuth.getChallengeAuthId();
-        this.title = challengeAuth.getTitle();
+        this.image = challengeAuth.getImage();
         this.content = challengeAuth.getContent();
+        this.title = challengeAuth.getTitle();
         this.likeNum = challengeAuth.getLikeNum();
     }
 }
