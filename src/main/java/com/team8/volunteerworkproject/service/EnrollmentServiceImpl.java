@@ -7,12 +7,14 @@ import com.team8.volunteerworkproject.entity.VolunteerWorkPost;
 import com.team8.volunteerworkproject.enums.EnrollmentStatus;
 import com.team8.volunteerworkproject.repository.EnrollmentRepository;
 import com.team8.volunteerworkproject.repository.VolunteerWorkPostRepository;
+import lombok.RequiredArgsConstructor;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +22,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
   private final EnrollmentRepository enrollmentRepository;
   private final VolunteerWorkPostRepository volunteerWorkPostRepository;
+  private final RedissonClient redissonClient;
 
     //참여 신청
   @Override
@@ -41,18 +44,27 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     if (post.getEndTime().isBefore(LocalDateTime.now())) {
       throw new IllegalArgumentException("모집 완료된 게시글에는 참여신청을 할 수 없습니다.");
     }
+    //Redisson RLock 객체 생성
+    String lockName = "enrollment_lock_" + postId;
+    RLock lock = redissonClient.getLock(lockName);
 
-    //이미 참여신청한 경우 중복체크
-    List<Enrollment> existingEnrollment = enrollmentRepository.findByUserIdAndPost_PostId(userId, postId);
-    if (!existingEnrollment.isEmpty()) {
-      throw new IllegalArgumentException("이미 해당 게시글에 참여하셨습니다.");
+    try {
+      lock.lock();
+
+      //이미 참여신청한 경우 중복체크
+      List<Enrollment> existingEnrollment = enrollmentRepository.findByUserIdAndPost_PostId(userId, postId);
+      if (!existingEnrollment.isEmpty()) {
+        throw new IllegalArgumentException("이미 해당 게시글에 참여하셨습니다.");
+      }
+
+      Enrollment enrollment = new Enrollment(postId, requestDto, userId, post);
+      enrollmentRepository.save(enrollment);
+
+      return new EnrollmentResponseDto(enrollment);
+
+    } finally {
+      lock.unlock();
     }
-
-
-    Enrollment enrollment = new Enrollment(postId, requestDto, userId, post);
-    enrollmentRepository.save(enrollment);
-
-    return new EnrollmentResponseDto(enrollment);
   }
 
   //참여 신청 취소
