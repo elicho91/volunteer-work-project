@@ -2,7 +2,6 @@ package com.team8.volunteerworkproject.dto.response;
 //Details.get(userId. name), phoneNum,
 
 import com.team8.volunteerworkproject.entity.Enrollment;
-import com.team8.volunteerworkproject.enums.EnrollmentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
