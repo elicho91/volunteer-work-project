@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Entity
 @NoArgsConstructor
@@ -34,11 +36,21 @@ public class Enrollment extends  Timestamp{
     @Column(name = "post_id", insertable=false, updatable=false)
     private Long postId;
 
+    @Column
+    private int maxEnrollmentNum;
+    @Column
+    private LocalDateTime endTime;
+
 
     public Enrollment(Long postId, EnrollmentRequestDto requestDto, String userId, VolunteerWorkPost post) {
         this.userId = userId;
         this.username = requestDto.getUsername();
         this.phoneNumber = requestDto.getPhoneNumber();
         this.post = post;
+        this.maxEnrollmentNum = post.getMaxEnrollmentNum();
+        this.endTime = post.getEndTime();
+    }
+    public void updateStatus(EnrollmentStatus newStatus) {
+        this.enrollmentStatus = newStatus;
     }
 }
